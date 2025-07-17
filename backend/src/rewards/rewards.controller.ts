@@ -18,7 +18,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CreateRewardDto } from './dto/create-reward.dto';
 import { UpdateRewardDto } from './dto/update-reward.dto';
-import { Role, RedemptionStatus } from '@prisma/client';
+import { Role, RedemptionStatus } from '../types/enums';
 
 @Controller('rewards')
 @UseGuards(JwtAuthGuard)

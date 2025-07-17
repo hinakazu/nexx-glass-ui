@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { TransactionType } from '@prisma/client';
+import { TransactionType } from '../types/enums';
 
 @Injectable()
 export class PointsService {

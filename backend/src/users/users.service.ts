@@ -41,10 +41,10 @@ export class UsersService {
           { id: { not: currentUserId } },
           {
             OR: [
-              { firstName: { contains: query, mode: 'insensitive' } },
-              { lastName: { contains: query, mode: 'insensitive' } },
-              { department: { contains: query, mode: 'insensitive' } },
-              { email: { contains: query, mode: 'insensitive' } },
+              { firstName: { contains: query } },
+              { lastName: { contains: query } },
+              { department: { contains: query } },
+              { email: { contains: query } },
             ],
           },
         ],

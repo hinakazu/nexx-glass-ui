@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException } from '@nestjs/common';
 import { PointsService } from './points.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { TransactionType } from '@prisma/client';
+import { TransactionType } from '../types/enums';
 
 describe('PointsService', () => {
   let service: PointsService;

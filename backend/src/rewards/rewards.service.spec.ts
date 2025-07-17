@@ -3,7 +3,7 @@ import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { RewardsService } from './rewards.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { PointsService } from '../services/points.service';
-import { RedemptionStatus, TransactionType } from '@prisma/client';
+import { RedemptionStatus, TransactionType } from '../types/enums';
 
 describe('RewardsService', () => {
   let service: RewardsService;

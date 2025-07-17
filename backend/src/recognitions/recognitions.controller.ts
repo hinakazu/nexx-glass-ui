@@ -18,7 +18,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CreateRecognitionDto } from './dto/create-recognition.dto';
 import { UpdateRecognitionPrivacyDto } from './dto/update-recognition-privacy.dto';
-import { Role } from '@prisma/client';
+import { Role } from '../types/enums';
 
 @Controller('recognitions')
 @UseGuards(JwtAuthGuard)

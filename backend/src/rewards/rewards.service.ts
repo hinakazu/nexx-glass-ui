@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { PointsService } from '../services/points.service';
 import { CreateRewardDto } from './dto/create-reward.dto';
 import { UpdateRewardDto } from './dto/update-reward.dto';
-import { RedemptionStatus } from '@prisma/client';
+import { RedemptionStatus, TransactionType } from '../types/enums';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -192,7 +192,7 @@ export class RewardsService {
         redemption.userId,
         redemption.pointsSpent,
         `Refund for cancelled redemption: ${redemption.reward.title}`,
-        'EARNED',
+        TransactionType.EARNED,
         redemptionId,
       );
 

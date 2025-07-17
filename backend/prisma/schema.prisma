@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -17,7 +17,7 @@ model User {
   firstName               String
   lastName                String
   department              String
-  role                    Role     @default(EMPLOYEE)
+  role                    String   @default("EMPLOYEE")
   avatarUrl               String?
   pointsBalance           Int      @default(0)
   monthlyPointsAllocation Int      @default(100)
@@ -73,7 +73,7 @@ model RewardRedemption {
   userId         String
   rewardId       String
   pointsSpent    Int
-  status         RedemptionStatus @default(PENDING)
+  status         String           @default("PENDING")
   redemptionCode String           @unique
   createdAt      DateTime         @default(now())
 
@@ -87,7 +87,7 @@ model RewardRedemption {
 model PointsTransaction {
   id          String            @id @default(cuid())
   userId      String
-  type        TransactionType
+  type        String
   amount      Int
   description String
   relatedId   String?
@@ -99,21 +99,3 @@ model PointsTransaction {
   @@map("points_transactions")
 }
 
-enum Role {
-  EMPLOYEE
-  MANAGER
-  ADMIN
-}
-
-enum RedemptionStatus {
-  PENDING
-  APPROVED
-  FULFILLED
-  CANCELLED
-}
-
-enum TransactionType {
-  EARNED
-  SPENT
-  ALLOCATED
-}
