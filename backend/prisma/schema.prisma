@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                      String   @id @default(cuid())
+  email                   String   @unique
+  password                String
+  firstName               String
+  lastName                String
+  department              String
+  role                    Role     @default(EMPLOYEE)
+  avatarUrl               String?
+  pointsBalance           Int      @default(0)
+  monthlyPointsAllocation Int      @default(100)
+  isActive                Boolean  @default(true)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  // Relations
+  sentRecognitions     Recognition[]      @relation("SentRecognitions")
+  receivedRecognitions Recognition[]      @relation("ReceivedRecognitions")
+  pointsTransactions   PointsTransaction[]
+  rewardRedemptions    RewardRedemption[]
+
+  @@map("users")
+}
+
+model Recognition {
+  id           String   @id @default(cuid())
+  senderId     String
+  recipientId  String
+  message      String
+  pointsAmount Int
+  isPrivate    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  // Relations
+  sender    User @relation("SentRecognitions", fields: [senderId], references: [id])
+  recipient User @relation("ReceivedRecognitions", fields: [recipientId], references: [id])
+
+  @@map("recognitions")
+}
+
+model Reward {
+  id            String   @id @default(cuid())
+  title         String
+  description   String
+  pointsCost    Int
+  category      String
+  imageUrl      String?
+  isActive      Boolean  @default(true)
+  stockQuantity Int?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  redemptions RewardRedemption[]
+
+  @@map("rewards")
+}
+
+model RewardRedemption {
+  id             String           @id @default(cuid())
+  userId         String
+  rewardId       String
+  pointsSpent    Int
+  status         RedemptionStatus @default(PENDING)
+  redemptionCode String           @unique
+  createdAt      DateTime         @default(now())
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id])
+  reward Reward @relation(fields: [rewardId], references: [id])
+
+  @@map("reward_redemptions")
+}
+
+model PointsTransaction {
+  id          String            @id @default(cuid())
+  userId      String
+  type        TransactionType
+  amount      Int
+  description String
+  relatedId   String?
+  createdAt   DateTime          @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("points_transactions")
+}
+
+enum Role {
+  EMPLOYEE
+  MANAGER
+  ADMIN
+}
+
+enum RedemptionStatus {
+  PENDING
+  APPROVED
+  FULFILLED
+  CANCELLED
+}
+
+enum TransactionType {
+  EARNED
+  SPENT
+  ALLOCATED
+}
